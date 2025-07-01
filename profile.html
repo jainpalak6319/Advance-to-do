@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <!-- Sidebar -->
+     <div class="layout-container">
+        <aside>
+        <div class="logo">
+            <h2>✅ TaskMaster</h2>
+        </div>
+        <p class="quote">Start Your Day & Be Productive ✌️</p>
+        <nav class="navbar">
+            <div class="menu-sign">&#9776;</div>
+            <div class="menu-list">
+            <ul class="nav-list">
+            <li><a href="home.html">🏠 Home</a></li>
+            <li><a href="profile.html">👤 Profile</a></li>
+            <li><a href="index.html">📋 Tasks</a></li>
+            <li><a href="settings.html">⚙️ Settings</a></li>
+            </ul>
+            <button class="mode-switch">Dark Mode🌙</button>
+        </div>
+        
+        </nav>
+     </aside>
+     
+     <div class="main-content">
+        <header>
+    <!-- Welcome Text -->
+        <div class="profile-header">
+            <h3>Create your profile</h3>
+        </div>
+    </header>
+    <main>
+        <div class="out-box">
+            <img src="profile.jpg" alt="login">
+            <form id="loginForm" class="login-container">
+        <img id="preview" src="default.avif" alt="Default" />
+        <input type="file" id="profilePic" accept="image/*" required />
+         <section id="name">
+        <div class="user-name">
+            <span>First Name</span>
+            <input type="text"  id="fname" required>
+        </div>
+        <div class="user-name">
+            <span>Last Name</span>
+            <input type="text" id="lname" required>
+        </div>
+         </section>
+         <section id="contact">
+            <span>Contact</span>
+            <input type="text" id="contactInput" required>
+         </section>
+         <section id="bio">
+            <span>Profile Bio</span>
+            <textarea name="bio" id="user-bio" rows="3" cols="3" required></textarea>
+         </section>
+         <button type="submit" class="log-in">Log-in</button>
+        </form>
+        </div>
+        <footer>
+        &copy; 2025 TaskMaster. All rights reserved.
+        </footer>
+        </div>
+        
+     </main>
+     </div>
+<script>
+    
+   // Image Preview
+    document.getElementById("profilePic").addEventListener("change", function () {
+      const file = this.files[0];
+      const preview = document.getElementById("preview");
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          preview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Save User Data
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      console.log("hello");
+
+      const fname = document.getElementById("fname").value.trim();
+      const lname = document.getElementById("lname").value.trim();
+      const contact = document.getElementById("contactInput").value.trim();
+      const bio = document.getElementById("user-bio").value.trim();
+      const file = document.getElementById("profilePic").files[0];
+
+      const user = {
+        name: fname + " " + lname,
+        contact,
+        bio,
+        profileImage: ""
+      };
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          user.profileImage = reader.result;
+          localStorage.setItem("user", JSON.stringify(user));
+          window.location.href = "index.html";
+        };
+        reader.readAsDataURL(file);
+      } else {
+        // No file uploaded
+        localStorage.setItem("user", JSON.stringify(user));
+        window.location.href = "index.html";
+      }
+    });
+</script>
+</body>
+
+</html>

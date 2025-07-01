@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <!-- Sidebar -->
+     <div class="layout-container">
+        <aside>
+        <div class="logo">
+            <h2>✅ TaskMaster</h2>
+        </div>
+        <p class="quote">Start Your Day & Be Productive ✌️</p>
+        <nav class="navbar">
+            <div class="menu-sign">&#9776;</div>
+            <div class="menu-list">
+            <div class="user-info">
+           <img id="profileImage" src="default.avif" alt="Profile Picture" />
+            <h3 id="displayName"></h3>
+            <p id="userBio"></p>
+            <button onclick="logout()">Logout</button>
+            </div>
+            <ul class="nav-list">
+            <li><a href="home.html">🏠 Home</a></li>
+            <li><a href="profile.html">👤 Profile</a></li>
+            <li><a href="index.html">📋 Tasks</a></li>
+            <li><a href="settings.html">⚙️ Settings</a></li>
+            </ul>
+            <button class="mode-switch">Dark Mode🌙</button>
+        </div>
+        
+        </nav>
+     </aside>
+     
+     <div class="main-content">
+        <header>
+    <!-- Welcome Text -->
+        <div class="welcome">
+            <h3>Welcome to Dashboard</h3>
+            <p>"Let's Organize Our Work"</p>
+        </div>
+    </header>
+    <!-- Cards -->
+    <main>
+        <div class="containers">
+        <section id="Total">
+            <div class="card" id="first">
+                <h4>Total Tasks</h4>
+                <div class="value" id="total-count">0</div>
+            </div>
+        </section>
+        <section id="Completed">
+            <div class="card" id="second">
+                <h4>Completed Tasks</h4>
+                <div class="value" id="Completed-count">0</div>
+            </div>
+        </section>
+        <section id="Pending" >
+            <div class="card" id="third">
+                <h4>Pending Tasks</h4>
+                <div class="value" id="Pending-count">0</div>
+            </div>
+        </section>
+        </div>
+        <!-- Task-Input -->
+        <div class="list-area">
+        <section class="input">
+        <input type="text" id="input-text" placeholder="Enter Your Task....">
+        <button id="add-task" onclick="addTask()">Add Task</button>
+        </section>
+        <section id="list-task">
+        <div id="filters">
+     <button onclick="filterTasks('all')">All</button>
+     <button onclick="filterTasks('completed')">Completed</button>
+     <button onclick="filterTasks('pending')">Pending</button>
+      </div>
+
+        <ul id="list"></ul>
+        </section>
+        <footer>
+        &copy; 2025 TaskMaster. All rights reserved.
+        </footer>
+        </div>
+        
+     </main>
+     </div>
+     </div>
+<script>   
+ const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+      window.location.href = "profile.html"; // prevent access
+    } else {
+      document.getElementById("displayName").textContent = user.name || "No name";
+      document.getElementById("userBio").textContent = user.bio || "No bio";
+      document.getElementById("profileImage").src = user.profileImage || "default.avif";
+    }
+
+    function logout() {
+      localStorage.removeItem("user");
+      window.location.href = "profile.html";
+    }
+</script>
+</body>
+
+</html>
