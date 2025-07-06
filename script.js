@@ -1,4 +1,53 @@
- const menuIcon = document.querySelector(".menu-sign");
+
+  let taskChart = null;
+
+  function getTaskStats() {
+    const total = parseInt(document.getElementById("total-count").textContent) || 0;
+    const completed = parseInt(document.getElementById("Completed-count").textContent) || 0;
+    const pending = parseInt(document.getElementById("Pending-count").textContent) || 0;
+    const inProgress = total - completed - pending;
+    return [completed, pending, inProgress < 0 ? 0 : inProgress];
+  }
+
+  function updateChart() {
+    const [completed, pending, inProgress] = getTaskStats();
+    const ctx = document.getElementById('taskChart').getContext('2d');
+
+    if (taskChart) taskChart.destroy(); // remove old
+
+    taskChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Completed', 'Pending', 'In Progress'],
+        datasets: [{
+          data: [completed, pending, inProgress],
+          backgroundColor: [
+            'rgba(75, 192, 192, 0.8)',   // Completed
+            'rgba(255, 99, 132, 0.8)',   // Pending
+            'rgba(255, 205, 86, 0.8)'    // In Progress
+          ],
+          borderColor: '#fff',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
+  }
+
+  // Call once after page load
+  window.addEventListener("load", () => {
+    setTimeout(updateChart, 500); // Wait for DOM and counts to update
+  });
+
+
+const menuIcon = document.querySelector(".menu-sign");
   const navLinks = document.querySelector(".menu-list");
 
   menuIcon.addEventListener("click", () => {
@@ -39,6 +88,7 @@ function createTaskElement(taskText, isCompleted) {
   span.addEventListener('click', function () {
     this.classList.toggle('completed');
     updateCounts();
+    updateChart();
     saveTasks();
   });
 
@@ -49,6 +99,7 @@ function createTaskElement(taskText, isCompleted) {
   deleteBtn.addEventListener('click', function () {
     li.remove();
     updateCounts();
+    updateChart();
     saveTasks();
   });
 
@@ -118,6 +169,7 @@ function addTask() {
   createTaskElement(task, false);
   userInput.value = "";
   updateCounts();
+  updateChart();
   saveTasks();
 }
 window.addEventListener('DOMContentLoaded', () => {
@@ -196,5 +248,7 @@ function getGreeting() {
 
     // Update greeting every minute (60000 ms)
     setInterval(updateGreeting, 60000);
+
+
 
  

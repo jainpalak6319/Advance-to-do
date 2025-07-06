@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do Dashboard</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 </head>
 <body>
     <!-- Sidebar -->
@@ -66,6 +68,11 @@
             </div>
         </section>
         </div>
+        <section class="chart-section">
+       <h3>Task Status Overview</h3>
+       <canvas id="taskChart" width="300" height="300"></canvas>
+       </section>
+
         <!-- Task-Input -->
         <div class="list-area">
         <section class="input">
@@ -89,22 +96,39 @@
      </main>
      </div>
      </div>
-<script>   
- const user = JSON.parse(localStorage.getItem("user"));
-
-    if (!user) {
-      window.location.href = "profile.html"; // prevent access
-    } else {
-      document.getElementById("displayName").textContent = user.name || "No name";
-      document.getElementById("userBio").textContent = user.bio || "No bio";
-      document.getElementById("profileImage").src = user.profileImage || "default.avif";
-    }
-
-    function logout() {
-      localStorage.removeItem("user");
-      window.location.href = "profile.html";
-    }
-</script>
+<script src="script.js"></script>
 </body>
+<script>
+    // ✅ Block index.html access if not logged in
+if (window.location.pathname.includes("index.html")) {
+  const user = JSON.parse(localStorage.getItem("taskUser"));
+  if (!user || !user.loggedIn) {
+    window.location.replace("profile.html");
+  }
+}
+if (window.location.pathname.includes("index.html")) {
+  const user = JSON.parse(localStorage.getItem("taskUser"));
 
+  if (!user || !user.loggedIn) {
+    window.location.replace("profile.html");
+  } else {
+    // SHOW INFO ON INDEX PAGE
+    document.addEventListener("DOMContentLoaded", () => {
+      const profileImage = document.getElementById("profileImage");
+      const displayName = document.getElementById("displayName");
+      const userBio = document.getElementById("userBio");
+
+      if (profileImage && displayName && userBio) {
+        profileImage.src = user.profileImage;
+        displayName.textContent = `${user.fname} ${user.lname}`;
+        userBio.textContent = user.bio;
+      }
+    });
+  }
+}
+function logout() {
+  localStorage.removeItem("taskUser");
+  window.location.href = "profile.html";
+}
+</script>
 </html>

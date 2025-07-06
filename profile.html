@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
 </head>
 <body>
     <!-- Sidebar -->
@@ -71,55 +70,51 @@
         
      </main>
      </div>
-<script>
-    
-   // Image Preview
-    document.getElementById("profilePic").addEventListener("change", function () {
-      const file = this.files[0];
-      const preview = document.getElementById("preview");
-
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          preview.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    // Save User Data
-    document.getElementById("loginForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      console.log("hello");
-
-      const fname = document.getElementById("fname").value.trim();
-      const lname = document.getElementById("lname").value.trim();
-      const contact = document.getElementById("contactInput").value.trim();
-      const bio = document.getElementById("user-bio").value.trim();
-      const file = document.getElementById("profilePic").files[0];
-
-      const user = {
-        name: fname + " " + lname,
-        contact,
-        bio,
-        profileImage: ""
-      };
-
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          user.profileImage = reader.result;
-          localStorage.setItem("user", JSON.stringify(user));
-          window.location.href = "index.html";
-        };
-        reader.readAsDataURL(file);
-      } else {
-        // No file uploaded
-        localStorage.setItem("user", JSON.stringify(user));
-        window.location.href = "index.html";
-      }
-    });
-</script>
+<script src="script.js"></script>
 </body>
+<script>
+    // ✅ Profile page login logic
+if (window.location.pathname.includes("profile.html")) {
+  const form = document.getElementById("loginForm");
+  const profilePic = document.getElementById("profilePic");
+  const preview = document.getElementById("preview");
 
+  // Redirect if already logged in
+  const existingUser = JSON.parse(localStorage.getItem("taskUser"));
+  if (existingUser?.loggedIn) {
+    window.location.href = "index.html";
+  }
+
+  // Show image preview
+  profilePic.addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        preview.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Handle login submit
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const userData = {
+      fname: document.getElementById("fname").value.trim(),
+      lname: document.getElementById("lname").value.trim(),
+      contact: document.getElementById("contactInput").value.trim(),
+      bio: document.getElementById("user-bio").value.trim(),
+      profileImage: preview.src,
+      loggedIn: true,
+    };
+
+    localStorage.setItem("taskUser", JSON.stringify(userData));
+    window.location.href = "index.html";
+  });
+}
+
+
+</script>
 </html>

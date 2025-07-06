@@ -254,7 +254,7 @@ body.dark header {
 
 body.dark input,
 body.dark button,
-body.dark li ,body.dark li span{
+body.dark li ,body.dark li span,body.dark textarea{
   background-color: #1e1e1e;
   color: white;
   border-color: #444;
@@ -309,6 +309,15 @@ p#userBio{
     font-size: 14px;
     color: #665858;
 }
+.chart-section {
+  margin: 20px auto;
+  text-align: center;
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 500px;
+}
+
 /*=====================HOME PAGE STYLING=====================*/
 .hero {
 position: relative;
